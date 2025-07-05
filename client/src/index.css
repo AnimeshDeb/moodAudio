@@ -1,9 +1,34 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
+/*
+Sunset glow theme: 
+1. Sunset Glow (Warm, Creative, Expressive – you're already using this)
+--background: #0D1B2A (deep navy)
+
+--primary: #FF6F3C (warm orange)
+
+--secondary: #FF4D6D (pinkish red)
+
+--accent: #FFD93D (bright yellow)
+
+--text: #F0EDEE (off-white)
+
+Midnight pulse:
+background	#0A0F1C	Deep navy black	Mysterious, immersive, studio-like
+surface	#1A1F2B	Very dark gray-blue	Subtle contrast from background
+primary	#6C63FF	Soft electric violet	Futuristic, creative, musical focus
+secondary	#3DDC97	Vibrant mint green	Fresh, modern, AI-inspired
+accent	#FF6B81	Coral-pink (warm red-pink mix)	Emotionally engaging, energetic
+text	#E2E8F0	Pale silvery white	Clean, readable, modern
+border	#2D3748	Slate gray	Subtle structure without distraction
+placeholder	#94A3B8	Dusty blue-gray	Hints at interactivity without dominance
+
+*/
 
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant sunset (&:is(.sunset *));
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -51,14 +76,14 @@
   --sidebar-ring: oklch(0.704 0.04 256.788);
 }
 
-a {
+/* a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
 a:hover {
   color: #535bf2;
-}
+} */
 
 body {
   margin: 0;
@@ -74,20 +99,19 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+/* button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
   border-color: #646cff;
-}
+} */
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -177,12 +201,41 @@ button:focus-visible {
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
+.sunset{
+ --background: oklch(0.1 0.04 250);          /* approx #0D1B2A dark navy */
+  --surface: oklch(0.15 0.05 250);             /* approx #1B263B */
+  --primary: oklch(0.75 0.6 45);                /* approx #FF6F3C warm orange */
+  --secondary: oklch(0.7 0.55 25);              /* approx #FF4D6D pink/red */
+  --accent: oklch(0.9 0.4 100);                  /* approx #FFD93D bright yellow */
+  --foreground: oklch(0.95 0.05 300);           /* approx #F0EDEE light text */
+  --foreground-secondary: oklch(0.9 0.1 30)
 
+  }
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+@layer utilities {
+  .bg-primary {
+    background-color: var(--primary);
+  }
+  .text-primary {
+    color: var(--primary);
+  }
+  .bg-secondary {
+    background-color: var(--secondary);
+  }
+  .text-secondary {
+    color: var(--secondary);
+  }
+  .bg-accent {
+    background-color: var(--accent);
+  }
+  .text-accent {
+    color: var(--accent);
   }
 }

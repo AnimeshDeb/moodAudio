@@ -1,0 +1,27 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon --watch src --ext ts,tsx --exec tsx src/app.ts",
+    "build": "tsc && node dist/app.js",
+    "typecheck": "tsc --watch"
+  },
+  "dependencies": {
+    "@getbrevo/brevo": "^2.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "otp-generator": "^4.0.1"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.10",
+    "@types/otp-generator": "^4.0.2",
+    "install": "^0.13.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
