@@ -27,7 +27,7 @@ export default function Signup() {
   });
 
   return (
-    <div className="w-[100vw] overflow-hidden flex flex-col md:flex-row min-h-screen bg-[#0A0F1C] text-[#E2E8F0]">
+    <div className="w-[100vw] min-w-[400px] overflow-hidden flex flex-col md:flex-row min-h-screen bg-[#0A0F1C] text-[#E2E8F0]">
       {/* Left side - Form */}
       <div className="w-full md:w-1/2 flex justify-center items-center bg-[#1A1F2B] border border-[#2D3748]  p-6 shadow-lg">
         <div className="w-full px-6 md:px-[100px] flex flex-col gap-[50px] items-center">
@@ -43,16 +43,18 @@ export default function Signup() {
                       'http://localhost:3000/verificationEmail',
                       {
                         method: 'POST',
-                        headers:{
-                          'Content-Type':'application/json',
+                        headers: {
+                          'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({ email: data.email }),
                       }
                     );
                     const resData = await response.json();
-                    navigate('/verificationCode', {
-                      state: { email: data, correctCode: resData },
-                    });
+                    if (resData.eStatus == 'success') {
+                      navigate('/otp', {
+                        state: { email: data.email },
+                      });
+                    }
                   } catch (error) {
                     console.error(error);
                   }
