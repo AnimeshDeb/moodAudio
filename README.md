@@ -3,11 +3,11 @@
 Goal:
 To make a website that allows users to make AI music videos.
 
-Status 7/4/2025:
+Status 7/6/2025:
 
-Worked on verification code generation + otp generation + otp deliverance to user email
+Worked on implementing redis db for user otp, improved signup/otp page design for desktop responsiveness, endpoint name changed to 'otp'.
 
 TODO:
-
-- Fix verification code page to be a bit more responsive when minimzing web page
-- find a good scalable db for otp generation and further
+- Implement jwt token for user authorization
+- begin implementing bark voice model
+- Security measures tbd: honeypot, recaptcha
