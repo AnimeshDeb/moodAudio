@@ -3,11 +3,10 @@
 Goal:
 To make a website that allows users to make AI music videos.
 
-Status 7/6/2025:
+Status 7/7/2025:
 
-Worked on implementing redis db for user otp, improved signup/otp page design for desktop responsiveness, endpoint name changed to 'otp'.
+Switched to clerk for auth as it removes a lot of complexities when running my own auth (including user authorization, security, token expirarion, implementing refresh tokens, etc...)
 
 TODO:
-- Implement jwt token for user authorization
 - begin implementing bark voice model
 - Security measures tbd: honeypot, recaptcha
