@@ -14,7 +14,28 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+      <ClerkProvider
+        appearance={{
+          variables: {
+            colorBackground: '#1A1F2B',         // Clerk card background
+            colorText: '#E2E8F0',              // Main text
+            colorInputBackground: '#111827',   // Input fields
+            colorInputText: '#E2E8F0',
+            colorPrimary: '#6C63FF',           // Clerk uses this in some buttons
+          },
+          elements: {
+            formButtonPrimary: {
+              backgroundColor: '#6C63FF',
+              color: '#E2E8F0',
+              '&:hover, &:focus, &:active': {
+                backgroundColor: '#7B6CFF',
+              },
+            },
+          },
+        }}
+        publishableKey={PUBLISHABLE_KEY}
+        afterSignOutUrl="/"
+      >
         <App />
       </ClerkProvider>
     </BrowserRouter>

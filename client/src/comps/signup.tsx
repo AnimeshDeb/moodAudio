@@ -14,16 +14,16 @@
 // import { useNavigate } from 'react-router-dom';
 
 import { SignUp } from '@clerk/clerk-react';
-import signupImg from '../images/headphonesGlow.jpg'; // Make sure path is correct
+import signupImg from '../images/headphonesGlow.jpg';
 
 export default function Signup() {
   return (
-    <div className="w-screen min-w-[400px] flex flex-col lg:flex-row min-h-screen bg-[#0A0F1C] text-[#E2E8F0] overflow-hidden">
+    <div className="w-screen min-w-[400px] flex flex-col lg:flex-row min-h-screen bg-[#0A0F1C] text-[#E2E8F0] overflow-y-auto relative">
       
       {/* Left Side - Text and Clerk Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center bg-[#1A1F2B] p-6 border border-[#2D3748]">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center bg-[#0A0F1C] p-6 z-10 relative">
         <div className="text-center mb-6 px-4">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Welcome to [muse.io]</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">Welcome to moodVid</h1>
         </div>
         <div className="w-full flex justify-center items-center max-w-sm px-4">
           <SignUp
@@ -31,27 +31,32 @@ export default function Signup() {
             routing="path"
             signInUrl="/signin"
             forceRedirectUrl="/home"
-            appearance={{
-              elements: {
-                card: "bg-white shadow-md",
-                formButtonPrimary: "bg-[#6C63FF] hover:bg-[#FF6B81]",
-              },
-            }}
+            
           />
         </div>
       </div>
 
       {/* Right Side - Image */}
-      <div className="hidden lg:flex w-full lg:w-1/2">
+      <div className="relative flex w-full lg:w-1/2">
         <img
           src={signupImg}
           alt="Headphones glowing in orange light"
           className="w-full h-full object-cover"
         />
+        {/* Responsive Gradient Overlay */}
+        <div className="
+          absolute 
+          top-0 left-0 
+          w-full h-full 
+          bg-gradient-to-b from-[#0A0F1C] to-transparent
+          lg:bg-gradient-to-r lg:from-[#0A0F1C] lg:to-transparent
+          pointer-events-none
+        " />
       </div>
     </div>
   );
 }
+
 
 
 // export default function Signup() {
