@@ -3,10 +3,10 @@
 Goal:
 To make a website that allows users to make AI music videos.
 
-Status 7/11/2025:
+Status 7/12/2025:
 
-Implemented script generation from a simple ideaa prompt and applied styling to clerk components.
+Allowed edits to be made to the returned script and also added basic styling to the home page textarea boxes. Edited the prompt use to prime the ai.
 
 TODO:
-- Allow edits to be made to the returnedd script.
+- Generate audio from provided script and allow user to choose audio model.
 - Security measures tbd: honeypot, recaptcha
