@@ -3,10 +3,10 @@
 Goal:
 To make a website that allows users to make AI music videos.
 
-Status 7/7/2025:
+Status 7/11/2025:
 
-Switched to clerk for auth as it removes a lot of complexities when running my own auth (including user authorization, security, token expirarion, implementing refresh tokens, etc...)
+Implemented script generation from a simple ideaa prompt and applied styling to clerk components.
 
 TODO:
-- begin implementing bark voice model
+- Allow edits to be made to the returnedd script.
 - Security measures tbd: honeypot, recaptcha
