@@ -29,7 +29,8 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
                     that deeply inspire and connect with viewers. Write in a confident, uplifting tone. Use 
                     vivid language, short punchy sentences, and strong emotional hooks. Start with a powerful line that captures attention. 
                     Build up to a motivational climax. End with a message of hope, strength,
-                    or call to action. Only output the script - no explanations, no title. Here is the core idea ${prompt}.`
+                    or call to action. Only output the script - no explanations, no title. Make sure the script
+                    is within 800 characters. Here is the core idea ${prompt}.`
                 }
             ],
         },
