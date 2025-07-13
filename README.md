@@ -1,7 +1,7 @@
-# musicWebApp
+# moodVid
 
 Goal:
-To make a website that allows users to make AI music videos.
+To make a website that allows users to make AI motivational  videos for youtube, integrating emotional/authentic voices, background music, and professional scripts.
 
 Status 7/12/2025:
 General design overflow fleshed out.
