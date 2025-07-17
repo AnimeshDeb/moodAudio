@@ -116,6 +116,10 @@ export default function Home() {
       value: 'track2',
       label: 'label_track2',
     },
+    {
+      value:"AI_music",
+      label:'AI analyzed music'
+    },
   ];
 
   const formSchema = z.object({
@@ -123,7 +127,7 @@ export default function Home() {
       message: 'Prompt must be a max of 550 characaters.',
     }),
     script: z.string().max(800, {
-      message: 'Voice must be of max 800 char ',
+      message: 'Script must be of max 800 char ',
     }),
   });
 
@@ -394,6 +398,10 @@ export default function Home() {
                   const payloadRes = await response.json();
                   setScript(payloadRes.data); // Store script
                   setStep(1); // Switch to script component
+                  console.log("persona value: ",personaValue )
+                  console.log("musicvalue: ", musicValue)
+                  console.log("voice value: ", voiceValue)
+                  console.log("audience value: ", audienceValue)
                 } catch (error) {
                   console.error(error);
                 }
@@ -456,7 +464,7 @@ export default function Home() {
           </Form>
         </div>
       ) : (
-        <ScriptDisplay script={script} onBack={() => setStep(0)} />
+        <ScriptDisplay script={script} voiceValue={voiceValue} personaValue={personaValue} musicValue={musicValue} audienceValue={audienceValue} />
       )}
     </div>
   );
