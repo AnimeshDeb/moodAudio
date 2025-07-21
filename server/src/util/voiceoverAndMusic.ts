@@ -96,6 +96,7 @@ export async function voiceoverAndMusic(
   // Construct the command and arguments using the validated paths
 
   const args = [
+    '-y',
     '-i',
     validatedVoiceoverFile,
     '-i',
