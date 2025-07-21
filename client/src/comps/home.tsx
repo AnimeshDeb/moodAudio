@@ -109,12 +109,20 @@ export default function Home() {
 
   const musics = [
     {
-      value: 'track1',
-      label: 'label_track1',
+      value: 'epic',
+      label: 'epic',
     },
     {
-      value: 'track2',
-      label: 'label_track2',
+      value: 'uplifting',
+      label: 'uplifting',
+    },
+    {
+      value: 'ambient',
+      label: 'ambient',
+    },
+    {
+      value: 'emotional (piano)',
+      label: 'emotonal',
     },
     {
       value:"AI_music",

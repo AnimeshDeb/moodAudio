@@ -3,14 +3,16 @@
 Goal:
 To make a website that allows users to make AI motivational  videos for youtube, integrating emotional/authentic voices, background music, and professional scripts.
 
-Status 7/17/2025:
-- Refactored displaying of script. 
-- Implemented sentiment analysis of script for ai background music.
+Status 7/20/2025:
+- Implemented ffmpeg to combine generated voiceover with background music. 
+- Implemented file path security when using ffmpeg
+
 
 TODO:
-- Implement audio implementation (voiceover of script and background music)
-    - Generate voiceover from elevenlabs
-    - Preload background music set (if AI_music isn't chosen)
-    - call music api if (AI_music is chosen)
-    - Combine voiceover with background music
+- Code review (Refactor certain code to make it look neater if need be)
+- Implement dynamic music path for each preset music track.
+- Get images from pixabay for the video
+    - Break script into chunks
+    - get image from keywords for each chunk
+    - combine audio with each image using ffmpeg
 - Security measures tbd: honeypot, recaptcha

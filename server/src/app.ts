@@ -1,6 +1,4 @@
 import express from 'express'
-import verificationEmail from './endpoints/verificationEmail.js'
-import verificationCode from './endpoints/verificationCode.js'
 import generateScript from './endpoints/generateScript.js'
 import getVoiceList from './endpoints/getVoiceList.js'
 import generateVideo from './endpoints/generateVideo.js'
@@ -10,8 +8,7 @@ const app=express()
 app.use(express.json())
 app.use(cors())
 
-app.use('/verificationEmail', verificationEmail)
-app.use('/verificationCode', verificationCode)
+
 app.use('/generateScript', generateScript)
 app.use('/getVoiceList',getVoiceList)
 app.use('/generateVideo', generateVideo)
