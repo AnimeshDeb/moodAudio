@@ -4,6 +4,7 @@ Goal:
 To make a website that allows users to make AI motivational  videos for youtube, integrating emotional/authentic voices, background music, and professional scripts.
 
 Status 7/20/2025:
+- Loaded preset music tracks for user to choose from.
 - Implemented ffmpeg to combine generated voiceover with background music. 
 - Implemented file path security when using ffmpeg
 
