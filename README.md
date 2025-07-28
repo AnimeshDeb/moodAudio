@@ -3,10 +3,9 @@
 Goal:
 To make a website that allows users to make AI motivational  videos for youtube, integrating emotional/authentic voices, background music, and professional scripts.
 
-Status 7/20/2025:
-- Loaded preset music tracks for user to choose from.
-- Implemented ffmpeg to combine generated voiceover with background music. 
-- Implemented file path security when using ffmpeg
+Status 7/27/2025:
+- Refactored code to now store combined audio in redis instead of saving it to files and ffmpeg now uses spawn to process audio in stdin and stdout. 
+- Moving all audio into redis.
 
 
 TODO:
