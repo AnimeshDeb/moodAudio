@@ -6,15 +6,34 @@ import { createWriteStream } from 'fs';
 import dotenv from 'dotenv';
 import { savevoiceoverBuffer } from '../util/voiceBuffer.js';
 import { voiceoverAndMusic } from '../util/voiceoverAndMusic.js';
+import { Redis } from '@upstash/redis';
+import { convertBufferRedis } from '../util/convertBufferRedis.js';
+import fs from 'fs/promises';
+import { fileURLToPath } from 'url';
+import path from 'path';
 dotenv.config();
 
 const router = express.Router();
 
 router.post('/', async (req: Request, res: Response): Promise<any> => {
-  const { script, voiceValue, personaValue, musicValue, audienceValue, userEmail } =
-    req.body;
+  const {
+    script,
+    voiceValue,
+    personaValue,
+    musicValue,
+    audienceValue,
+    userEmail,
+  } = req.body;
 
+  const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
+  const redis = new Redis({
+    url: redisUrl,
+    token: redisToken,
+  });
 
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
   if (
     !script ||
     !voiceValue ||
@@ -26,12 +45,95 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     return res.status(400).json({ error: 'Missing field' });
   }
 
+  //If music tracks are not in redis, we store them there after converting them into strings from buffers
+  if (musicValue == 'ambient') {
+    const musicExists = await redis.exists(`music:${musicValue}`);
+    if (musicExists == 0) {
+      //converting to buffer
+      const musicFileAbsolutePath = path.resolve(
+        __dirname,
+        '../musicTracks/ambient_345093.mp3'
+      );
 
-  //Get voiceover from script
+      //reading content of file to a buffer
+      const bufferMusic = await fs.readFile(musicFileAbsolutePath);
 
-  const voiceOver=await generateVoiceover(script, voiceValue)
-  await savevoiceoverBuffer(voiceOver, userEmail)
-  await voiceoverAndMusic(userEmail, "../musicTracks/ambient_345093.mp3" )
+      //converting buffer to string
+      const convertedBufferMusic = await convertBufferRedis(bufferMusic);
+
+      //storing music file track in redis as string
+
+      await redis.set(`music: ambient`, convertedBufferMusic);
+    }
+  }
+
+   if (musicValue == 'emotional') {
+    const musicExists = await redis.exists(`music:${musicValue}`);
+    if (musicExists == 0) {
+      //converting to buffer
+      const musicFileAbsolutePath = path.resolve(
+        __dirname,
+        '../musicTracks/emotional_333684.mp3'
+      );
+
+      //reading content of file to a buffer
+      const bufferMusic = await fs.readFile(musicFileAbsolutePath);
+
+      //converting buffer to string
+      const convertedBufferMusic = await convertBufferRedis(bufferMusic);
+
+      //storing music file track in redis as string
+
+      await redis.set(`music: emotional`, convertedBufferMusic);
+    }
+  }
+   if (musicValue == 'epic') {
+    const musicExists = await redis.exists(`music:${musicValue}`);
+    if (musicExists == 0) {
+      //converting to buffer
+      const musicFileAbsolutePath = path.resolve(
+        __dirname,
+        '../musicTracks/epic_364885.mp3'
+      );
+
+      //reading content of file to a buffer
+      const bufferMusic = await fs.readFile(musicFileAbsolutePath);
+
+      //converting buffer to string
+      const convertedBufferMusic = await convertBufferRedis(bufferMusic);
+
+      //storing music file track in redis as string
+
+      await redis.set(`music: epic`, convertedBufferMusic);
+    }
+  }
+   if (musicValue == 'uplifting') {
+    const musicExists = await redis.exists(`music:${musicValue}`);
+    if (musicExists == 0) {
+      //converting to buffer
+      const musicFileAbsolutePath = path.resolve(
+        __dirname,
+        '../musicTracks/uplifting_328600.mp3'
+      );
+
+      //reading content of file to a buffer
+      const bufferMusic = await fs.readFile(musicFileAbsolutePath);
+
+      //converting buffer to string
+      const convertedBufferMusic = await convertBufferRedis(bufferMusic);
+
+      //storing music file track in redis as string
+
+      await redis.set(`music: uplifting`, convertedBufferMusic);
+    }
+  }
+   
+
+  //Get voiceover from script and combine with music
+
+  const voiceOver = await generateVoiceover(script, voiceValue);
+  await savevoiceoverBuffer(voiceOver, userEmail);
+  await voiceoverAndMusic(userEmail, musicValue);
 
   if (musicValue == 'AI_music') {
     //If 'AI_music' is chosen, based on the detected mood, we get the appropriate music background track.
@@ -46,4 +148,4 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   return res.status(200).json({ message: 'No AI music processing is needed.' });
 });
 
-export default router
+export default router;

@@ -46,8 +46,8 @@ export default function ScriptDisplay({
   if (!isSignedIn) {
     <RedirectToSignIn />;
   }
-  const userEmail=user?.primaryEmailAddress
-
+  const userEmailObject=user?.primaryEmailAddress
+  const userEmail=userEmailObject?.emailAddress
   
   return (
     <Form {...form}>
