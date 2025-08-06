@@ -3,9 +3,8 @@
 Goal:
 To make a website that allows users to make AI motivational  videos for youtube, integrating emotional/authentic voices, background music, and professional scripts.
 
-Status 7/28/2025:
-- All music tracks are added to redis.
-- All voice+music process occurs in stdin 
+Status 8/5/2025:
+-  Working on processing combined music+voiceover audio with visuals
 
 
 

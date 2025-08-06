@@ -131,9 +131,13 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
 
   //Get voiceover from script and combine with music
 
+  
+  //elevenlabs voice
   const voiceOver = await generateVoiceover(script, voiceValue);
-  await savevoiceoverBuffer(voiceOver, userEmail);
-  await voiceoverAndMusic(userEmail, musicValue);
+  await savevoiceoverBuffer(voiceOver, userEmail);// voiceover buffer is stored as string in redis
+  await voiceoverAndMusic(userEmail, musicValue);//combined voice and music buffer is stored as string in redis
+
+  
 
   if (musicValue == 'AI_music') {
     //If 'AI_music' is chosen, based on the detected mood, we get the appropriate music background track.
