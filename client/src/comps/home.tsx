@@ -39,7 +39,7 @@ export default function Home() {
 
   // Persona state
   const [personaOpen, setPersonaOpen] = useState(false);
-  const [personaValue, setPersonaValue] = useState('');
+  const [themeValue, setThemeValue] = useState('');
 
   const [musicOpen, setMusicOpen] = useState(false);
   const [musicValue, setMusicValue] = useState('');
@@ -85,26 +85,91 @@ export default function Home() {
     fetchVoices();
   }, []);
 
-  const personas = [
+  const themes = [
     {
-      value: 'Dwayne Johnsen',
-      label: 'label_dwayneJ',
+      value: 'Strength',
+      label: 'Strength',
     },
     {
-      value: 'Chris Harris',
-      label: 'label_chrisH',
+      value: 'Perseverence',
+      label: 'Perseverence',
+    },
+    {
+      value:'Courage',
+      label: 'Courage',
+    },
+    {
+      value:'Discipline',
+      label: 'Discipline',
+    },
+    {
+      value: 'Growth',
+      label: 'Growth',
+    },
+    {
+      value:'Determination',
+      label:'Determination',
+      
+    },
+    {
+      value:'Hope',
+      label:'Hope',
+    },
+    {
+      value: 'Overcoming Adversity',
+      label:'Overcoming Adversity',
+    },
+    {
+      value:'Mindset Shift',
+      label:'Mindset Shift',
     },
   ];
 
   const audiences = [
     {
-      value: 'teenagers',
-      label: 'label_teenagers',
+      value: 'Students and Graduates',
+      label: 'Students and Graduates',
     },
     {
-      value: 'gym people',
-      label: 'label_gympeople',
+      value: 'Athletes and Fitness Enthusiasts',
+      label: 'Athletes and Fitness Enthusiasts',
     },
+    {
+      value:'Corporate Professionals',
+      label:'Corporate Professionals',
+    },
+    {
+      value: 'Artists and Creatives',
+      label: 'Artists and Creatives',
+    },
+    {
+      value:'People Recovering from Illness or Injury',
+      label:'People Recovering from Illness or Injury',
+    },
+    {
+      value:'Job Seekers',
+      label:'Job Seekers',
+    },
+    {
+      value:'Military Personnel and Veterans',
+      label:'Military Personnel and Veterans',
+    },
+    {
+      value:'Parents and Caregivers',
+      label:'Parents and Caregivers',
+    },
+    {
+      value:'Teenagers',
+      label:'Teenagers',
+    },
+    {
+      value:'Adults',
+      label:'Adults',
+    },
+    {
+      value:'General Self-Improvement Seekers',
+      label:'General Self-Improvement Seekers',
+    }
   ];
 
   const musics = [
@@ -229,7 +294,7 @@ export default function Home() {
             </div>
 
             <div className="space-y-2 text-left">
-              <p className="text-sm font-semibold text-left">Persona:</p>
+              <p className="text-sm font-semibold text-left">Themes:</p>
               <Popover open={personaOpen} onOpenChange={setPersonaOpen}>
                 <PopoverTrigger asChild>
                   <Button
@@ -238,11 +303,11 @@ export default function Home() {
                     aria-expanded={personaOpen}
                     className="w-full justify-between bg-[#0A0F1C] text-white border-gray-600"
                   >
-                    {personaValue
-                      ? personas.find(
-                          (persona) => persona.value === personaValue
+                    {themeValue
+                      ? themes.find(
+                          (theme) => theme.value === themeValue
                         )?.label
-                      : 'Select persona...'}
+                      : 'Select video theme...'}
                     <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -250,15 +315,15 @@ export default function Home() {
                   <Command>
                     <CommandInput placeholder="Search personas..." />
                     <CommandList>
-                      <CommandEmpty>No persona found.</CommandEmpty>
+                      <CommandEmpty>No theme found.</CommandEmpty>
                       <CommandGroup>
-                        {personas.map((persona) => (
+                        {themes.map((theme) => (
                           <CommandItem
-                            key={persona.value}
-                            value={persona.value}
+                            key={theme.value}
+                            value={theme.value}
                             onSelect={(currentValue) => {
-                              setPersonaValue(
-                                currentValue === personaValue
+                              setThemeValue(
+                                currentValue === themeValue
                                   ? ''
                                   : currentValue
                               );
@@ -268,12 +333,12 @@ export default function Home() {
                             <CheckIcon
                               className={cn(
                                 'mr-2 h-4 w-4',
-                                personaValue === persona.value
+                                themeValue === theme.value
                                   ? 'opacity-100'
                                   : 'opacity-0'
                               )}
                             />
-                            {persona.label}
+                            {theme.label}
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -406,7 +471,7 @@ export default function Home() {
                   const payloadRes = await response.json();
                   setScript(payloadRes.data); // Store script
                   setStep(1); // Switch to script component
-                  console.log("persona value: ",personaValue )
+                  console.log("persona value: ",themeValue )
                   console.log("musicvalue: ", musicValue)
                   console.log("voice value: ", voiceValue)
                   console.log("audience value: ", audienceValue)
@@ -472,7 +537,7 @@ export default function Home() {
           </Form>
         </div>
       ) : (
-        <ScriptDisplay script={script} voiceValue={voiceValue} personaValue={personaValue} musicValue={musicValue} audienceValue={audienceValue} />
+        <ScriptDisplay script={script} voiceValue={voiceValue} themeValue={themeValue} musicValue={musicValue} audienceValue={audienceValue} />
       )}
     </div>
   );

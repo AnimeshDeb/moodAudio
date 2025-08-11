@@ -16,7 +16,7 @@ import { RedirectToSignIn } from '@clerk/clerk-react';
 type scriptDisplayProps = {
   script: string;
   voiceValue: string;
-  personaValue: string;
+  themeValue: string;
   musicValue: string;
   audienceValue: string;
 };
@@ -24,7 +24,7 @@ type scriptDisplayProps = {
 export default function ScriptDisplay({
   script,
   voiceValue,
-  personaValue,
+  themeValue,
   musicValue,
   audienceValue,
 }: scriptDisplayProps) {
@@ -61,7 +61,7 @@ export default function ScriptDisplay({
             body: JSON.stringify({
               script: data.writtenScript,
               voiceValue,
-              personaValue,
+              themeValue,
               musicValue,
               audienceValue,
               userEmail,
@@ -69,6 +69,7 @@ export default function ScriptDisplay({
           });
           const resData = await response.json();
           console.log(resData);
+          console.log("script data: ", resData.scriptData)
         })}
         className="bg-[#1A2238] p-8 rounded-xl text-white shadow-lg space-y-6 w-full max-w-[800px]"
       >

@@ -11,6 +11,7 @@ import { convertBufferRedis } from '../util/convertBufferRedis.js';
 import fs from 'fs/promises';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import getImages from '../util/getImages.js';
 dotenv.config();
 
 const router = express.Router();
@@ -19,7 +20,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   const {
     script,
     voiceValue,
-    personaValue,
+    themeValue,
     musicValue,
     audienceValue,
     userEmail,
@@ -37,7 +38,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   if (
     !script ||
     !voiceValue ||
-    !personaValue ||
+    !themeValue ||
     !musicValue ||
     !audienceValue ||
     !userEmail
@@ -136,7 +137,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   const voiceOver = await generateVoiceover(script, voiceValue);
   await savevoiceoverBuffer(voiceOver, userEmail);// voiceover buffer is stored as string in redis
   await voiceoverAndMusic(userEmail, musicValue);//combined voice and music buffer is stored as string in redis
-
+  await getImages(themeValue)
   
 
   if (musicValue == 'AI_music') {
@@ -149,7 +150,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       return res.status(500).json({ error: 'Failed to detect mood.' });
     }
   }
-  return res.status(200).json({ message: 'No AI music processing is needed.' });
+  return res.status(200).json({ message: 'No AI music processing is needed.' , scriptData: script});
 });
 
 export default router;
