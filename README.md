@@ -3,12 +3,11 @@
 Goal:
 To make a website that allows users to make AI motivational  videos for youtube, integrating emotional/authentic voices, background music, and professional scripts.
 
-Status 8/11/2025:
--  Receiving images from pixabay given video theme.
+Status 9/2/2025:
+-  Images integrated to form mp4 video.
 
 
 
 TODO:
-- Combine images received from pixabay with combined audio (voiceover+ music) and return to client for download
-- Code review (Refactor certain code to make it look neater if need be)
+- Solve no audio issue in mp4
 - Security measures tbd: honeypot, recaptcha

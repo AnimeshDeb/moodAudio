@@ -1,27 +1,107 @@
 import ffmpeg from 'ffmpeg-static';
 import { Redis } from '@upstash/redis';
+import getImages from './getImages.js';
 import dotenv from 'dotenv';
-
+import { spawn } from 'child_process';
+import fs from 'fs';
+import { Readable } from 'stream';
 dotenv.config();
-export async function AddVisuals( userEmail:string) {
-  //get combined audio from redis
+
+export async function AddVisuals(userEmail: string, theme: string) {
+  // Redis setup
   const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
   const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if( !redisUrl || !redisToken){
-    throw new Error('Missing required inputs or env variables when adding visuals to combined audio.')
+  if (!redisUrl || !redisToken) {
+    throw new Error('Missing Redis credentials');
   }
-  const redis = new Redis({
-    url: redisUrl,
-    token: redisToken,
+  const redis = new Redis({ url: redisUrl, token: redisToken });
+
+  // Get combined audio
+  const combinedAudioString = await redis.get<string>(`${userEmail}:combined`);
+  if (!combinedAudioString) return null;
+  const combinedAudioBuffer = Buffer.from(combinedAudioString, 'base64');
+
+  // Get images
+  const imageArr = await getImages(theme);
+  if (!imageArr.length) throw new Error('No images found for the theme.');
+
+  // FFmpeg binary
+  if (!ffmpeg) throw new Error('ffmpeg binary not found.');
+  const ffmpegPath = ffmpeg as unknown as string;
+
+  // Spawn FFmpeg
+  const ff = spawn(
+    ffmpegPath,
+    [
+      '-y',
+      '-thread_queue_size', '512',
+
+      // Images
+      '-f', 'mjpeg',
+      '-framerate', '1',
+      '-i', 'pipe:4',
+
+      // Audio
+      '-f', 'mp3',
+      '-i', 'pipe:3',
+
+      // Encoding
+      '-c:v', 'libx264',
+      '-pix_fmt', 'yuv420p',
+      '-c:a', 'aac',
+      '-b:a', '192k',
+      '-shortest',
+      '-movflags', 'frag_keyframe+empty_moov',
+      '-f', 'mp4',
+      'pipe:1',
+    ],
+    { stdio: ['pipe', 'pipe', 'inherit', 'pipe', 'pipe'] }
+  );
+
+  if (!ff.stdout) throw new Error('ffmpeg stdout is null.');
+  const audioPipe = ff.stdio[3] as NodeJS.WritableStream;
+  const imagePipe = ff.stdio[4] as NodeJS.WritableStream;
+
+  // ✅ Stream audio once
+  const audioStream = Readable.from(combinedAudioBuffer);
+  audioStream.pipe(audioPipe);
+
+  const chunks: Buffer[] = [];
+  ff.stdout.on('data', (d) => chunks.push(d));
+
+  // ✅ Keep looping images until FFmpeg finishes
+  (async () => {
+    try {
+      while (true) {
+        for (const url of imageArr) {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`Failed to fetch image: ${url}`);
+          const buf = Buffer.from(await res.arrayBuffer());
+
+          if (!imagePipe.write(buf)) {
+            await new Promise<void>((resolve) =>
+              imagePipe.once('drain', resolve)
+            );
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Image loop error:', err);
+    } finally {
+      imagePipe.end();
+    }
+  })();
+
+  // Wait for FFmpeg
+  const videoBuffer: Buffer = await new Promise<Buffer>((resolve, reject) => {
+    ff.on('error', reject);
+    ff.on('close', (code) => {
+      if (code === 0) resolve(Buffer.concat(chunks));
+      else reject(new Error(`ffmpeg exited with code ${code}`));
+    });
   });
-  const combinedAudioString=await redis.get<string>(`${userEmail}:combined`);
-  if(!combinedAudioString) return null 
 
-  //converting string to buffer for processing
-
-   const combinedAudioBuffer = Buffer.from(combinedAudioString, 'base64'); //converting combined audio string into buffer decoded
-
-   //process buffer using ffmpeg static and combine with visuals received from pixabay or something similar...
-
-
+  fs.writeFileSync('output.mp4', videoBuffer);
+  console.log('Video saved as output.mp4');
+  return videoBuffer;
 }

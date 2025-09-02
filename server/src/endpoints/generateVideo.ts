@@ -12,6 +12,7 @@ import fs from 'fs/promises';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import getImages from '../util/getImages.js';
+import { AddVisuals } from '../util/addVisuals.js';
 dotenv.config();
 
 const router = express.Router();
@@ -137,7 +138,8 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   const voiceOver = await generateVoiceover(script, voiceValue);
   await savevoiceoverBuffer(voiceOver, userEmail);// voiceover buffer is stored as string in redis
   await voiceoverAndMusic(userEmail, musicValue);//combined voice and music buffer is stored as string in redis
-  await getImages(themeValue)
+  // await getImages(themeValue)
+  await AddVisuals(userEmail, themeValue)
   
 
   if (musicValue == 'AI_music') {
