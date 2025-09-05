@@ -82,6 +82,7 @@ export async function voiceoverAndMusic(
     ffmpeg.on('close', async (code) => {
       if (code === 0) {
         const finalBuffer = Buffer.concat(outputChunks);
+
         const encoded = finalBuffer.toString('base64');
         await redis.set(`${userEmail}:combined`, encoded); // save final combined audio result to redis encoded
 
@@ -93,7 +94,7 @@ export async function voiceoverAndMusic(
 
         const combinedAudioBuffer = Buffer.from(combinedBase64, 'base64'); //converting combined audio string into buffer decoded
 
-        await fs.writeFile('combined_output.mp3', combinedAudioBuffer);
+        await fs.writeFile(`combined_output_${userEmail}.mp3`, combinedAudioBuffer);
         console.log('Audio saved to combined_output.mp3');
 
         resolve(combinedAudioBuffer);
