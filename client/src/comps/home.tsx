@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
+import { LogOut } from 'lucide-react'; // add this at the top with other imports
+
 import {
   Form,
   FormControl,
@@ -28,8 +30,11 @@ import { useState, useEffect, useRef } from 'react';
 import { ChevronsUpDownIcon, CheckIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ScriptDisplay from './scriptDisplay';
+import { useClerk } from '@clerk/clerk-react'; // Clerk hook
 
 export default function Home() {
+  const { signOut } = useClerk(); // Sign out method
+
   const [step, setStep] = useState(0);
   const [script, setScript] = useState('');
 
@@ -49,23 +54,8 @@ export default function Home() {
 
   const [loading, setLoading] = useState(false);
 
-  const scriptRef = useRef<HTMLTextAreaElement>(null); //using it to dynamically resize textarea according to text
-  // const voices = [
-  //   {
-  //     value: 'Voice1',
-  //     label: 'label_voice1',
-  //   },
-  //   {
-  //     value: 'Voice2',
-  //     label: 'label_voice2',
-  //   },
-  //   {
-  //     value: 'Voice3',
-  //     label: 'label_voice3',
-  //   },
-  // ];
+  const scriptRef = useRef<HTMLTextAreaElement>(null);
 
-  //get all voices
   type Voice = {
     voice_id: string;
     name: string;
@@ -73,9 +63,9 @@ export default function Home() {
     [key: string]: unknown;
   };
   type VoiceListResponse = {
-    payload: Voice[]; //multiple objects of type Voice
+    payload: Voice[];
   };
-  const [voices, setVoices] = useState<Voice[]>([]); //voices will contain different voices objects
+  const [voices, setVoices] = useState<Voice[]>([]);
 
   useEffect(() => {
     const fetchVoices = async () => {
@@ -88,85 +78,37 @@ export default function Home() {
   }, []);
 
   const themes = [
-    {
-      value: 'Strength',
-      label: 'Strength',
-    },
-    {
-      value: 'Perseverence',
-      label: 'Perseverence',
-    },
-    {
-      value: 'Courage',
-      label: 'Courage',
-    },
-    {
-      value: 'Discipline',
-      label: 'Discipline',
-    },
-    {
-      value: 'Growth',
-      label: 'Growth',
-    },
-    {
-      value: 'Determination',
-      label: 'Determination',
-    },
-    {
-      value: 'Hope',
-      label: 'Hope',
-    },
-    {
-      value: 'Overcoming Adversity',
-      label: 'Overcoming Adversity',
-    },
-    {
-      value: 'Mindset Shift',
-      label: 'Mindset Shift',
-    },
+    { value: 'Strength', label: 'Strength' },
+    { value: 'Perseverence', label: 'Perseverence' },
+    { value: 'Courage', label: 'Courage' },
+    { value: 'Discipline', label: 'Discipline' },
+    { value: 'Growth', label: 'Growth' },
+    { value: 'Determination', label: 'Determination' },
+    { value: 'Hope', label: 'Hope' },
+    { value: 'Overcoming Adversity', label: 'Overcoming Adversity' },
+    { value: 'Mindset Shift', label: 'Mindset Shift' },
   ];
 
   const audiences = [
-    {
-      value: 'Students and Graduates',
-      label: 'Students and Graduates',
-    },
+    { value: 'Students and Graduates', label: 'Students and Graduates' },
     {
       value: 'Athletes and Fitness Enthusiasts',
       label: 'Athletes and Fitness Enthusiasts',
     },
-    {
-      value: 'Corporate Professionals',
-      label: 'Corporate Professionals',
-    },
-    {
-      value: 'Artists and Creatives',
-      label: 'Artists and Creatives',
-    },
+    { value: 'Corporate Professionals', label: 'Corporate Professionals' },
+    { value: 'Artists and Creatives', label: 'Artists and Creatives' },
     {
       value: 'People Recovering from Illness or Injury',
       label: 'People Recovering from Illness or Injury',
     },
-    {
-      value: 'Job Seekers',
-      label: 'Job Seekers',
-    },
+    { value: 'Job Seekers', label: 'Job Seekers' },
     {
       value: 'Military Personnel and Veterans',
       label: 'Military Personnel and Veterans',
     },
-    {
-      value: 'Parents and Caregivers',
-      label: 'Parents and Caregivers',
-    },
-    {
-      value: 'Teenagers',
-      label: 'Teenagers',
-    },
-    {
-      value: 'Adults',
-      label: 'Adults',
-    },
+    { value: 'Parents and Caregivers', label: 'Parents and Caregivers' },
+    { value: 'Teenagers', label: 'Teenagers' },
+    { value: 'Adults', label: 'Adults' },
     {
       value: 'General Self-Improvement Seekers',
       label: 'General Self-Improvement Seekers',
@@ -174,43 +116,23 @@ export default function Home() {
   ];
 
   const musics = [
-    {
-      value: 'epic',
-      label: 'epic',
-    },
-    {
-      value: 'uplifting',
-      label: 'uplifting',
-    },
-    {
-      value: 'ambient',
-      label: 'ambient',
-    },
-    {
-      value: 'emotional (piano)',
-      label: 'emotonal',
-    },
-    {
-      value: 'AI_music',
-      label: 'AI analyzed music',
-    },
+    { value: 'epic', label: 'epic' },
+    { value: 'uplifting', label: 'uplifting' },
+    { value: 'ambient', label: 'ambient' },
+    { value: 'emotional (piano)', label: 'emotonal' },
+    { value: 'AI_music', label: 'AI analyzed music' },
   ];
 
   const formSchema = z.object({
-    prompt: z.string().max(550, {
-      message: 'Prompt must be a max of 550 characaters.',
-    }),
-    script: z.string().max(800, {
-      message: 'Script must be of max 800 char ',
-    }),
+    prompt: z
+      .string()
+      .max(550, { message: 'Prompt must be a max of 550 characaters.' }),
+    script: z.string().max(800, { message: 'Script must be of max 800 char ' }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      prompt: '',
-      script: '',
-    },
+    defaultValues: { prompt: '', script: '' },
   });
 
   const watchedScript = form.watch('script');
@@ -222,10 +144,19 @@ export default function Home() {
   }, [watchedScript]);
 
   return (
-    <div className="bg-[#0A0F1C] w-screen min-h-screen flex justify-center items-center text-[#E2E8F0] p-4">
+    <div className="bg-[#0A0F1C] w-screen min-h-screen flex justify-center items-center text-[#E2E8F0] p-4 relative">
+      <button
+        onClick={() => signOut()}
+        className="absolute top-4 right-4 px-4 py-2 flex items-center gap-2 rounded-md text-[#0A0F1C] border border-[#2D3748] bg-[#3DDC97] hover:bg-[#33c780] transition cursor-pointer"
+      >
+        <LogOut className="w-4 h-4" />
+        Logout
+      </button>
+
       {step === 0 ? (
         <div className="w-full max-w-[800px] p-10 rounded-xl bg-[#1A2238] shadow-lg space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Voice Dropdown */}
             <div className="space-y-2 text-left">
               <p className="text-sm font-semibold text-left">Voice:</p>
               <Popover open={voiceOpen} onOpenChange={setVoiceOpen}>
@@ -277,7 +208,7 @@ export default function Home() {
                                 type="button"
                                 className="ml-4 text-xs underline hover:text-blue-400"
                                 onClick={(e) => {
-                                  e.stopPropagation(); // Prevent item select
+                                  e.stopPropagation();
                                   const audio = new Audio(voice.preview_url);
                                   audio.play();
                                 }}
@@ -294,6 +225,7 @@ export default function Home() {
               </Popover>
             </div>
 
+            {/* Themes Dropdown */}
             <div className="space-y-2 text-left">
               <p className="text-sm font-semibold text-left">Themes:</p>
               <Popover open={personaOpen} onOpenChange={setPersonaOpen}>
@@ -346,6 +278,7 @@ export default function Home() {
               </Popover>
             </div>
 
+            {/* Music Dropdown */}
             <div className="space-y-2 text-left">
               <p className="text-sm font-semibold text-left">Music:</p>
               <Popover open={musicOpen} onOpenChange={setMusicOpen}>
@@ -398,6 +331,7 @@ export default function Home() {
               </Popover>
             </div>
 
+            {/* Audience Dropdown */}
             <div className="space-y-2 text-left">
               <p className="text-sm font-semibold text-left">Audience:</p>
               <Popover open={audienceOpen} onOpenChange={setAudienceOpen}>
@@ -458,7 +392,7 @@ export default function Home() {
             <form
               onSubmit={form.handleSubmit(async (data) => {
                 try {
-                  setLoading(true); // start loading
+                  setLoading(true);
                   const response = await fetch(
                     'http://localhost:3000/generateScript',
                     {
@@ -468,8 +402,8 @@ export default function Home() {
                     }
                   );
                   const payloadRes = await response.json();
-                  setScript(payloadRes.data); // Store script
-                  setStep(1); // Switch to script component
+                  setScript(payloadRes.data);
+                  setStep(1);
                   console.log('persona value: ', themeValue);
                   console.log('music value: ', musicValue);
                   console.log('voice value: ', voiceValue);
@@ -477,7 +411,7 @@ export default function Home() {
                 } catch (error) {
                   console.error(error);
                 } finally {
-                  setLoading(false); // stop loading
+                  setLoading(false);
                 }
               })}
               className="space-y-6"
