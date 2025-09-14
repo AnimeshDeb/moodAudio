@@ -5,7 +5,7 @@ To make a website that allows users to make AI motivational podcast audio, integ
 
 Status 9/13/2025:
 - Added landing page
-- Useflow complete, now users can generate audio from a prompt
+- Useflow complete, now users can generate downloadable audio from a prompt
 - Added styling and loading states.
 
 
