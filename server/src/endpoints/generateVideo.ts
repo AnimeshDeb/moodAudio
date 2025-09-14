@@ -13,7 +13,8 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import getImages from '../util/getImages.js';
 import { AddVisuals } from '../util/addVisuals.js';
-import { mergeAudioVideo } from '../util/mergeAudioVideo.js';
+// import { mergeAudioVideo } from '../util/mergeAudioVideo.js';
+// import inspectStream from '../util/inspectStreams.js';
 dotenv.config();
 
 const router = express.Router();
@@ -70,7 +71,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     }
   }
 
-   if (musicValue == 'emotional') {
+  if (musicValue == 'emotional') {
     const musicExists = await redis.exists(`music:${musicValue}`);
     if (musicExists == 0) {
       //converting to buffer
@@ -90,7 +91,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       await redis.set(`music: emotional`, convertedBufferMusic);
     }
   }
-   if (musicValue == 'epic') {
+  if (musicValue == 'epic') {
     const musicExists = await redis.exists(`music:${musicValue}`);
     if (musicExists == 0) {
       //converting to buffer
@@ -110,7 +111,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       await redis.set(`music: epic`, convertedBufferMusic);
     }
   }
-   if (musicValue == 'uplifting') {
+  if (musicValue == 'uplifting') {
     const musicExists = await redis.exists(`music:${musicValue}`);
     if (musicExists == 0) {
       //converting to buffer
@@ -130,31 +131,35 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       await redis.set(`music: uplifting`, convertedBufferMusic);
     }
   }
-   
 
   //Get voiceover from script and combine with music
 
-  
   //elevenlabs voice
   const voiceOver = await generateVoiceover(script, voiceValue);
-  await savevoiceoverBuffer(voiceOver, userEmail);// voiceover buffer is stored as string in redis
-  const audio=await voiceoverAndMusic(userEmail, musicValue);//combined voice and music buffer is stored as string in redis
+  await savevoiceoverBuffer(voiceOver, userEmail); // voiceover buffer is stored as string in redis
+  const audioBuffer = await voiceoverAndMusic(userEmail, musicValue); //combined voice and music buffer is stored as string in redis
   // await getImages(themeValue)
-  await AddVisuals(userEmail, themeValue)
-  await mergeAudioVideo(userEmail)
-  
+  // const videoBuffer=await AddVisuals(userEmail, themeValue)
+  // await inspectStream('video_animeshdeb89@gmail.com.mp4')
+  // await inspectStream('combined_output_animeshdeb89@gmail.com.mp3')
 
-  if (musicValue == 'AI_music') {
-    //If 'AI_music' is chosen, based on the detected mood, we get the appropriate music background track.
-    //Otherwise the background music will be one of the selected ones.
-    try {
-      const overallMood = await Mooddetection(script);
-      return res.json({ data: overallMood });
-    } catch (error) {
-      return res.status(500).json({ error: 'Failed to detect mood.' });
-    }
-  }
-  return res.status(200).json({ message: 'No AI music processing is needed.' , scriptData: script});
+  //sending mp3 and mp4 data as buffers to frontend, converting them to base64 string so frontend can process them
+
+  res.setHeader('Content-Type', 'audio/mpeg');
+  res.setHeader('Content-Disposition', 'inline; filename="output.mp3"'); // optional, helps with downloading
+  res.send(audioBuffer);
+
+  // if (musicValue == 'AI_music') {
+  //   //If 'AI_music' is chosen, based on the detected mood, we get the appropriate music background track.
+  //   //Otherwise the background music will be one of the selected ones.
+  //   try {
+  //     const overallMood = await Mooddetection(script);
+  //     return res.json({ data: overallMood });
+  //   } catch (error) {
+  //     return res.status(500).json({ error: 'Failed to detect mood.' });
+  //   }
+  // }
+  // return res.status(200).json({ message: 'No AI music processing is needed.' , scriptData: script});
 });
 
 export default router;

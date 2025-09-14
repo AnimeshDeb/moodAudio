@@ -5,11 +5,11 @@ export default function Signin() {
     <div>
       <div className="w-screen min-w-[400px] flex flex-col lg:flex-row min-h-screen bg-[#0A0F1C] text-[#E2E8F0] overflow-y-auto relative">
         {/* Left Side - Text and Clerk Form */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center items-center bg-[#1A1F2B] p-6 z-10 relative">
+        <div className="w-full lg:w-1/2 flex flex-col justify-center items-center bg-[#0A0F1C] p-6 z-10 relative">
           <div className="text-center mb-6 px-4">
             <h1 className="text-3xl md:text-4xl font-bold mb-2">
               {' '}
-              Sign in to moodVid
+              Sign in to moodAudio
             </h1>
           </div>
           <div className="w-full flex justify-center items-center max-w-sm px-4">

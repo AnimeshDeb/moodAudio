@@ -47,6 +47,8 @@ export default function Home() {
   const [audienceOpen, setAudienceOpen] = useState(false);
   const [audienceValue, setAudienceValue] = useState('');
 
+  const [loading, setLoading] = useState(false);
+
   const scriptRef = useRef<HTMLTextAreaElement>(null); //using it to dynamically resize textarea according to text
   // const voices = [
   //   {
@@ -79,7 +81,7 @@ export default function Home() {
     const fetchVoices = async () => {
       const response = await fetch('http://localhost:3000/getVoiceList');
       const data: VoiceListResponse = await response.json();
-      console.log("Fetched voices: ", data)
+      console.log('Fetched voices: ', data);
       setVoices(data.payload);
     };
     fetchVoices();
@@ -95,11 +97,11 @@ export default function Home() {
       label: 'Perseverence',
     },
     {
-      value:'Courage',
+      value: 'Courage',
       label: 'Courage',
     },
     {
-      value:'Discipline',
+      value: 'Discipline',
       label: 'Discipline',
     },
     {
@@ -107,21 +109,20 @@ export default function Home() {
       label: 'Growth',
     },
     {
-      value:'Determination',
-      label:'Determination',
-      
+      value: 'Determination',
+      label: 'Determination',
     },
     {
-      value:'Hope',
-      label:'Hope',
+      value: 'Hope',
+      label: 'Hope',
     },
     {
       value: 'Overcoming Adversity',
-      label:'Overcoming Adversity',
+      label: 'Overcoming Adversity',
     },
     {
-      value:'Mindset Shift',
-      label:'Mindset Shift',
+      value: 'Mindset Shift',
+      label: 'Mindset Shift',
     },
   ];
 
@@ -135,41 +136,41 @@ export default function Home() {
       label: 'Athletes and Fitness Enthusiasts',
     },
     {
-      value:'Corporate Professionals',
-      label:'Corporate Professionals',
+      value: 'Corporate Professionals',
+      label: 'Corporate Professionals',
     },
     {
       value: 'Artists and Creatives',
       label: 'Artists and Creatives',
     },
     {
-      value:'People Recovering from Illness or Injury',
-      label:'People Recovering from Illness or Injury',
+      value: 'People Recovering from Illness or Injury',
+      label: 'People Recovering from Illness or Injury',
     },
     {
-      value:'Job Seekers',
-      label:'Job Seekers',
+      value: 'Job Seekers',
+      label: 'Job Seekers',
     },
     {
-      value:'Military Personnel and Veterans',
-      label:'Military Personnel and Veterans',
+      value: 'Military Personnel and Veterans',
+      label: 'Military Personnel and Veterans',
     },
     {
-      value:'Parents and Caregivers',
-      label:'Parents and Caregivers',
+      value: 'Parents and Caregivers',
+      label: 'Parents and Caregivers',
     },
     {
-      value:'Teenagers',
-      label:'Teenagers',
+      value: 'Teenagers',
+      label: 'Teenagers',
     },
     {
-      value:'Adults',
-      label:'Adults',
+      value: 'Adults',
+      label: 'Adults',
     },
     {
-      value:'General Self-Improvement Seekers',
-      label:'General Self-Improvement Seekers',
-    }
+      value: 'General Self-Improvement Seekers',
+      label: 'General Self-Improvement Seekers',
+    },
   ];
 
   const musics = [
@@ -190,8 +191,8 @@ export default function Home() {
       label: 'emotonal',
     },
     {
-      value:"AI_music",
-      label:'AI analyzed music'
+      value: 'AI_music',
+      label: 'AI analyzed music',
     },
   ];
 
@@ -304,9 +305,8 @@ export default function Home() {
                     className="w-full justify-between bg-[#0A0F1C] text-white border-gray-600"
                   >
                     {themeValue
-                      ? themes.find(
-                          (theme) => theme.value === themeValue
-                        )?.label
+                      ? themes.find((theme) => theme.value === themeValue)
+                          ?.label
                       : 'Select video theme...'}
                     <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
@@ -323,9 +323,7 @@ export default function Home() {
                             value={theme.value}
                             onSelect={(currentValue) => {
                               setThemeValue(
-                                currentValue === themeValue
-                                  ? ''
-                                  : currentValue
+                                currentValue === themeValue ? '' : currentValue
                               );
                               setPersonaOpen(false);
                             }}
@@ -460,6 +458,7 @@ export default function Home() {
             <form
               onSubmit={form.handleSubmit(async (data) => {
                 try {
+                  setLoading(true); // start loading
                   const response = await fetch(
                     'http://localhost:3000/generateScript',
                     {
@@ -471,12 +470,14 @@ export default function Home() {
                   const payloadRes = await response.json();
                   setScript(payloadRes.data); // Store script
                   setStep(1); // Switch to script component
-                  console.log("persona value: ",themeValue )
-                  console.log("musicvalue: ", musicValue)
-                  console.log("voice value: ", voiceValue)
-                  console.log("audience value: ", audienceValue)
+                  console.log('persona value: ', themeValue);
+                  console.log('music value: ', musicValue);
+                  console.log('voice value: ', voiceValue);
+                  console.log('audience value: ', audienceValue);
                 } catch (error) {
                   console.error(error);
+                } finally {
+                  setLoading(false); // stop loading
                 }
               })}
               className="space-y-6"
@@ -504,40 +505,34 @@ export default function Home() {
                   </FormItem>
                 )}
               />
-
-              {/* {step === 1 && (
-              <FormField
-                control={form.control}
-                name="script"
-                render={({ field }) => {
-                  const { ref, ...rest } = field;
-                  return (
-                    <FormItem>
-                      <FormLabel>Script</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          ref={mergeRefs(ref, scriptRef)}
-                          className="resize-none whitespace-pre-wrap overflow-hidden border border-gray-600 bg-[#0A0F1C] text-white p-4"
-                          {...rest}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              />
-            )} */}
+              {loading && (
+                <div className="absolute inset-0 bg-black/30 flex items-start justify-center z-10 pt-4">
+                  <p className="text-[#6C63FF] text-3xl font-semibold">
+                    ...Generating Script
+                  </p>
+                </div>
+              )}
 
               <div className="flex justify-end">
-                <Button type="submit" className="px-6 py-2 rounded-md">
-                  {step === 0 && <div>Generate Script</div>}
+                <Button
+                  type="submit"
+                  className="px-6 py-2 rounded-md bg-[#6C63FF] hover:bg-[#5a54e6] transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={loading}
+                >
+                  {loading ? '...Generating Script' : 'Generate Script'}
                 </Button>
               </div>
             </form>
           </Form>
         </div>
       ) : (
-        <ScriptDisplay script={script} voiceValue={voiceValue} themeValue={themeValue} musicValue={musicValue} audienceValue={audienceValue} />
+        <ScriptDisplay
+          script={script}
+          voiceValue={voiceValue}
+          themeValue={themeValue}
+          musicValue={musicValue}
+          audienceValue={audienceValue}
+        />
       )}
     </div>
   );

@@ -23,7 +23,7 @@ export default function Signup() {
       {/* Left Side - Text and Clerk Form */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center items-center bg-[#0A0F1C] p-6 z-10 relative">
         <div className="text-center mb-6 px-4">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Welcome to moodVid</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">Welcome to moodAudio</h1>
         </div>
         <div className="w-full flex justify-center items-center max-w-sm px-4">
           <SignUp

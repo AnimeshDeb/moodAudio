@@ -1,13 +1,14 @@
-# moodVid
+# moodAudio
 
 Goal:
-To make a website that allows users to make AI motivational  videos for youtube, integrating emotional/authentic voices, background music, and professional scripts.
+To make a website that allows users to make AI motivational podcast audio, integrating emotional/authentic voices, background music, and professional scripts.
 
-Status 9/5/2025:
--  Merge audio from mp3 with visuals in mp4 (still need further testing)
+Status 9/13/2025:
+- Added landing page
+- Useflow complete, now users can generate audio from a prompt
+- Added styling and loading states.
 
 
 
 TODO:
-- Solve no audio issue in mp4
-- Security measures tbd: honeypot, recaptcha
+- Add a logout button

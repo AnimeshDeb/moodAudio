@@ -6,6 +6,7 @@ import Signin from './comps/signin';
 import { SignedIn } from '@clerk/clerk-react';
 import { RedirectToSignIn } from '@clerk/clerk-react';
 import { SignedOut } from '@clerk/clerk-react';
+import LandingPage from './comps/landingpage';
 import './App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Route path="/signup/*" element={<Signup />} />
       <Route path="/signin/*" element={<Signin />} />
       <Route path="/otp" element={<Otp />} />
+      <Route path="/" element={<LandingPage />}/>
 
       <Route
         path="/home"
