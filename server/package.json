@@ -1,10 +1,12 @@
 {
   "type": "module",
-  "scripts": {
-    "dev": "nodemon --watch src --ext ts,tsx --exec tsx src/app.ts",
-    "build": "tsc && node dist/app.js",
-    "typecheck": "tsc --watch"
-  },
+ "scripts": {
+  "dev": "nodemon --watch src --ext ts,tsx --exec tsx src/app.ts", 
+  "build": "tsc",                                                 
+  "start": "node dist/app.js",                                     
+  "typecheck": "tsc --watch"
+}
+,
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.6.0",
     "@google/genai": "^1.9.0",
