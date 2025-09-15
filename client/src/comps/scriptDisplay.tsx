@@ -34,8 +34,8 @@ export default function ScriptDisplay({
   const [error, setError] = useState('');
 
   const formSchema = z.object({
-    writtenScript: z.string().max(800, {
-      message: 'Script must be of max 800 characters.',
+    writtenScript: z.string().max(1600, {
+      message: 'Script must be of max 1600 characters.',
     }),
   });
 
@@ -143,11 +143,21 @@ export default function ScriptDisplay({
         {error && <p className="text-red-500 mt-2">{error}</p>}
         {loading && (
           <div className="absolute inset-0 bg-black/30 flex items-start justify-center z-10 pt-4">
-            <p className="text-[#6C63FF] text-3xl font-semibold">
-              ...Generating Podcast Audio
+            <p className="text-[#6C63FF] text-3xl font-semibold flex items-center leading-none">
+              <span className="animate-pulse ml-1 text-[#6C63FF] text-3xl leading-none">
+                .
+              </span>
+              <span className="animate-pulse ml-1 text-[#3DDC97] text-3xl leading-none [animation-delay:200ms]">
+                .
+              </span>
+              <span className="animate-pulse ml-1 text-[#FF6B81] text-3xl leading-none [animation-delay:400ms]">
+                .
+              </span>
+              <span className="ml-3">Generating Podcast Audio</span>
             </p>
           </div>
         )}
+
         {audioUrl && !loading && (
           <div className="flex items-center gap-x-4 mt-6">
             {/* Audio player */}

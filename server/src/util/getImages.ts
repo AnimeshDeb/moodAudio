@@ -25,7 +25,7 @@ for(let hits of data.hits){
     imageArr.push(hits.previewURL)
 
 }
-console.log("image url: ", imageArr)
+
 return imageArr
 //missing first pixabay cdn img url
 }

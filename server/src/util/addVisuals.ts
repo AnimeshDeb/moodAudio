@@ -118,7 +118,7 @@ const ff = spawn(
   
 
  
-  console.log('Video saved as video.mp4');
+  console.log('Audio processed.');
 
   return videoBuffer;
 }

@@ -35,18 +35,5 @@ export async function savevoiceoverBuffer(voiceStream: AsyncIterable<Uint8Array>
   }
  
 
-  // const __filename = fileURLToPath(import.meta.url);
-  // const __dirname = path.dirname(__filename);
-
-  // const safeBaseDirectory = path.resolve(__dirname, '../musicTracks/voiceover');
-  // const resolvedPath = path.resolve(safeBaseDirectory, outpath);
-
-  // if (!resolvedPath.startsWith(safeBaseDirectory + path.sep)) {
-  //   throw new Error('Attempted path traversal detected. Invalid output path.');
-  // }
-
-  // const outputDir = path.dirname(resolvedPath);
-  // await import('fs/promises').then(fs => fs.mkdir(outputDir, { recursive: true }));
-
-  // await writeFile(resolvedPath, voiceBuffer);
+ 
 }

@@ -30,8 +30,6 @@ export default function Otp() {
     defaultValues: { otp: '' },
   });
 
-  // console.log('correct code: ', correctCode);
-  console.log('User email is: ', email);
   return (
     <div className="bg-[#0A0F1C] w-[100vw] min-w-[400px] min-h-screen flex justify-center items-center text-[#E2E8F0] p-4">
       <div className="w-full max-w-md bg-[#1A1F2B] rounded-lg p-6 flex justify-center items-center flex-col gap-2">

@@ -71,7 +71,6 @@ export default function Home() {
     const fetchVoices = async () => {
       const response = await fetch('http://localhost:3000/getVoiceList');
       const data: VoiceListResponse = await response.json();
-      console.log('Fetched voices: ', data);
       setVoices(data.payload);
     };
     fetchVoices();
@@ -119,15 +118,16 @@ export default function Home() {
     { value: 'epic', label: 'epic' },
     { value: 'uplifting', label: 'uplifting' },
     { value: 'ambient', label: 'ambient' },
-    { value: 'emotional (piano)', label: 'emotonal' },
-    { value: 'AI_music', label: 'AI analyzed music' },
+    { value: 'emotional', label: 'emotional' },
   ];
 
   const formSchema = z.object({
     prompt: z
       .string()
       .max(550, { message: 'Prompt must be a max of 550 characaters.' }),
-    script: z.string().max(800, { message: 'Script must be of max 800 char ' }),
+    script: z
+      .string()
+      .max(1600, { message: 'Script must be of max 1600 char ' }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -239,7 +239,7 @@ export default function Home() {
                     {themeValue
                       ? themes.find((theme) => theme.value === themeValue)
                           ?.label
-                      : 'Select video theme...'}
+                      : 'Select podcast theme...'}
                     <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -398,16 +398,20 @@ export default function Home() {
                     {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ prompt: data.prompt }),
+                      body: JSON.stringify({
+                        prompt: data.prompt,
+                        audience: audienceValue,
+                        theme: themeValue,
+                      }),
                     }
                   );
                   const payloadRes = await response.json();
                   setScript(payloadRes.data);
                   setStep(1);
-                  console.log('persona value: ', themeValue);
-                  console.log('music value: ', musicValue);
-                  console.log('voice value: ', voiceValue);
-                  console.log('audience value: ', audienceValue);
+                  // console.log('persona value: ', themeValue);
+                  // console.log('music value: ', musicValue);
+                  // console.log('voice value: ', voiceValue);
+                  // console.log('audience value: ', audienceValue);
                 } catch (error) {
                   console.error(error);
                 } finally {
@@ -441,8 +445,17 @@ export default function Home() {
               />
               {loading && (
                 <div className="absolute inset-0 bg-black/30 flex items-start justify-center z-10 pt-4">
-                  <p className="text-[#6C63FF] text-3xl font-semibold">
-                    ...Generating Script
+                  <p className="text-[#6C63FF] text-3xl font-semibold flex items-center leading-none">
+                    <span className="animate-pulse ml-1 text-[#6C63FF] text-3xl leading-none">
+                      .
+                    </span>
+                    <span className="animate-pulse ml-1 text-[#3DDC97] text-3xl leading-none [animation-delay:200ms]">
+                      .
+                    </span>
+                    <span className="animate-pulse ml-1 text-[#FF6B81] text-3xl leading-none [animation-delay:400ms]">
+                      .
+                    </span>
+                    <span className="ml-3">Generating Script</span>
                   </p>
                 </div>
               )}

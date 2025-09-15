@@ -39,13 +39,12 @@ export async function voiceoverAndMusic(
 
   // fetching voiceover from redis
   const base64 = await redis.get<string>(userEmail);
-  console.log('base64 string: ', base64);
+  
   if (!base64) return null;
 
   //fetching music track from redis
 
   const music64 = await redis.get<string>(`music: ${musicValue}`);
-  console.log('music64 string: ', music64);
   if (!music64) return null;
 
   const musicBuffer = Buffer.from(music64, 'base64');
@@ -64,7 +63,7 @@ export async function voiceoverAndMusic(
         '-i',
         'pipe:3', //music from stdin
         '-filter_complex',
-        '[1:a]volume=0.15[a1];[0:a][a1]amix=inputs=2:duration=first:dropout_transition=2',
+        '[1:a]volume=0.065[a1];[0:a][a1]amix=inputs=2:duration=first:dropout_transition=2',
         '-f',
         'mp3', // output format
         'pipe:1', // output to stdout
@@ -95,7 +94,7 @@ export async function voiceoverAndMusic(
         const combinedAudioBuffer = Buffer.from(combinedBase64, 'base64'); //converting combined audio string into buffer decoded
 
         // await fs.writeFile(`combined_output_${userEmail}.mp3`, combinedAudioBuffer);
-        console.log('Audio saved to combined_output.mp3');
+        // console.log('Audio saved.');
 
         resolve(combinedAudioBuffer);
       } else {
