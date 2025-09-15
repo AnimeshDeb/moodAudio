@@ -394,7 +394,7 @@ export default function Home() {
                 try {
                   setLoading(true);
                   const response = await fetch(
-                    'http://localhost:3000/generateScript',
+                    'https://mood-audi.vercel.app/generateScript',
                     {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },

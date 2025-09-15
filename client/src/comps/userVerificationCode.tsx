@@ -46,7 +46,7 @@ export default function Otp() {
         }
         <Form {...form}>
           <form onSubmit={form.handleSubmit(async (data) => {
-            const response=await fetch('http://localhost:3000/verificationCode',{
+            const response=await fetch('https://mood-audi.vercel.app/verificationCode',{
                         method: 'POST',
                         headers:{
                           'Content-Type':'application/json',
