@@ -69,7 +69,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchVoices = async () => {
-      const response = await fetch('http://localhost:3000/getVoiceList');
+      const response = await fetch('https://mood-audio.vercel.app/getVoiceList');
       const data: VoiceListResponse = await response.json();
       setVoices(data.payload);
     };
