@@ -13,6 +13,8 @@ app.use('/generateScript', generateScript)
 app.use('/getVoiceList',getVoiceList)
 app.use('/generateVideo', generateVideo)
 
-app.listen(3000,()=>{
-    console.log(`App listening on port 3000`)
-})
+// app.listen(3000,()=>{
+//     console.log(`App listening on port 3000`)
+// })
+
+export default app
