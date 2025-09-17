@@ -8,7 +8,9 @@ const app=express()
 app.use(express.json())
 app.use(cors())
 
-
+app.get('/',(req,res)=>{
+  res.send('Hi there!');
+});
 app.use('/generateScript', generateScript)
 app.use('/getVoiceList',getVoiceList)
 app.use('/generateVideo', generateVideo)
