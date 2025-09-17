@@ -17,11 +17,11 @@ createRoot(document.getElementById('root')!).render(
       <ClerkProvider
         appearance={{
           variables: {
-            colorBackground: '#1A1F2B',         // Clerk card background
-            colorText: '#E2E8F0',              // Main text
-            colorInputBackground: '#111827',   // Input fields
+            colorBackground: '#1A1F2B', // Clerk card background
+            colorText: '#E2E8F0', // Main text
+            colorInputBackground: '#111827', // Input fields
             colorInputText: '#E2E8F0',
-            colorPrimary: '#6C63FF',           // Clerk uses this in some buttons
+            colorPrimary: '#6C63FF', // Clerk uses this in some buttons
           },
           elements: {
             formButtonPrimary: {
@@ -35,6 +35,8 @@ createRoot(document.getElementById('root')!).render(
         }}
         publishableKey={PUBLISHABLE_KEY}
         afterSignOutUrl="/"
+        signInUrl="/signin"
+        signUpUrl="/signup"
       >
         <App />
       </ClerkProvider>
