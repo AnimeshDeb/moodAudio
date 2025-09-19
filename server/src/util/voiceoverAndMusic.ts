@@ -39,7 +39,7 @@ export async function voiceoverAndMusic(
 
   // fetching voiceover from redis
   const base64 = await redis.get<string>(userEmail);
-  
+
   if (!base64) return null;
 
   //fetching music track from redis
@@ -76,7 +76,19 @@ export async function voiceoverAndMusic(
     const outputChunks: Buffer[] = [];
     if (!ffmpeg.stdout) return reject(new Error('ffmpeg stdout is null'));
     ffmpeg.stdout.on('data', (chunk) => outputChunks.push(chunk));
-    // ffmpeg.stderr.on('data', (data) => process.stderr.write(data)); // log errors
+    if (!ffmpeg.stdout) return reject(new Error('ffmpeg stdout is null'));
+    ffmpeg.stdout.on('data', (chunk) => outputChunks.push(chunk));
+
+    // Safe stderr logging (no early return!)
+    ffmpeg.stderr?.on('data', (data) => {
+      const message = data.toString();
+      if (
+        !message.includes('write EOF') &&
+        !message.includes('Thread message queue blocking')
+      ) {
+        console.error('FFmpeg stderr:', message);
+      }
+    });
     ffmpeg.on('error', reject);
     ffmpeg.on('close', async (code) => {
       if (code === 0) {
