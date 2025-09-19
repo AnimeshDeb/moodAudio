@@ -78,10 +78,22 @@ export default function ScriptDisplay({
             );
 
             if (!response.ok) {
-              throw new Error('Failed to generate audio');
+              // Try reading server JSON with reach info
+              let errData;
+              try {
+                errData = await response.json();
+                console.error('Server reach:', errData.reach);
+                throw new Error(
+                  `Failed to generate audio: ${errData.error} (reach: ${errData.reach})`
+                );
+              } catch {
+                throw new Error(
+                  'Failed to generate audio (unknown server error)'
+                );
+              }
             }
 
-            // Read response as ArrayBuffer
+            // If ok, read audio
             const arrayBuffer = await response.arrayBuffer();
             const audioBlob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
             const oldAudioUrl = audioUrl;
@@ -97,7 +109,7 @@ export default function ScriptDisplay({
               'Unable to create podcast due to high traffic. Please try again later.'
             );
           } finally {
-            setLoading(false);
+            setLoading(false); // always reset loading state
           }
         })}
         className="bg-[#1A2238] p-8 rounded-xl text-white shadow-lg space-y-6 w-full max-w-[800px]"
