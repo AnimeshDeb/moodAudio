@@ -69,7 +69,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchVoices = async () => {
-      const response = await fetch('https://mood-audio.vercel.app/getVoiceList');
+      const response = await fetch('http://localhost:3000/getVoiceList');
       const data: VoiceListResponse = await response.json();
       setVoices(data.payload);
     };
@@ -394,7 +394,7 @@ export default function Home() {
                 try {
                   setLoading(true);
                   const response = await fetch(
-                    'https://mood-audio.vercel.app/generateScript',
+                    'http://localhost:3000/generateScript',
                     {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },

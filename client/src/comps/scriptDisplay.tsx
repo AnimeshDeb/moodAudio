@@ -60,7 +60,7 @@ export default function ScriptDisplay({
           setError('');
           try {
             const response = await fetch(
-              'https://mood-audio.vercel.app/generateVideo',
+              'http://localhost:3000/generateVideo',
               {
                 method: 'POST',
                 headers: {
