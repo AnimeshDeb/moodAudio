@@ -36,8 +36,8 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     token: redisToken,
   });
 
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
+  // const __filename = fileURLToPath(import.meta.url);
+  // const __dirname = path.dirname(__filename);
   if (
     !script ||
     !voiceValue ||
@@ -50,87 +50,87 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   }
 
   //If music tracks are not in redis, we store them there after converting them into strings from buffers
-  if (musicValue == 'ambient') {
-    const musicExists = await redis.exists(`music:${musicValue}`);
-    if (musicExists == 0) {
-      //converting to buffer
-      const musicFileAbsolutePath = path.resolve(
-        __dirname,
-        '../musicTracks/ambient_345093.mp3'
-      );
+  // if (musicValue == 'ambient') {
+  //   const musicExists = await redis.exists(`music:${musicValue}`);
+  //   if (musicExists == 0) {
+  //     //converting to buffer
+  //     const musicFileAbsolutePath = path.resolve(
+  //       __dirname,
+  //       '../musicTracks/ambient_345093.mp3'
+  //     );
 
-      //reading content of file to a buffer
-      const bufferMusic = await fs.readFile(musicFileAbsolutePath);
+  //     //reading content of file to a buffer
+  //     const bufferMusic = await fs.readFile(musicFileAbsolutePath);
 
-      //converting buffer to string
-      const convertedBufferMusic = await convertBufferRedis(bufferMusic);
+  //     //converting buffer to string
+  //     const convertedBufferMusic = await convertBufferRedis(bufferMusic);
 
-      //storing music file track in redis as string
+  //     //storing music file track in redis as string
 
-      await redis.set(`music: ambient`, convertedBufferMusic);
-    }
-  }
+  //     await redis.set(`music: ambient`, convertedBufferMusic);
+  //   }
+  // }
 
-  if (musicValue == 'emotional') {
-    const musicExists = await redis.exists(`music:${musicValue}`);
-    if (musicExists == 0) {
-      //converting to buffer
-      const musicFileAbsolutePath = path.resolve(
-        __dirname,
-        '../musicTracks/emotional_333684.mp3'
-      );
+  // if (musicValue == 'emotional') {
+  //   const musicExists = await redis.exists(`music:${musicValue}`);
+  //   if (musicExists == 0) {
+  //     //converting to buffer
+  //     const musicFileAbsolutePath = path.resolve(
+  //       __dirname,
+  //       '../musicTracks/emotional_333684.mp3'
+  //     );
 
-      //reading content of file to a buffer
-      const bufferMusic = await fs.readFile(musicFileAbsolutePath);
+  //     //reading content of file to a buffer
+  //     const bufferMusic = await fs.readFile(musicFileAbsolutePath);
 
-      //converting buffer to string
-      const convertedBufferMusic = await convertBufferRedis(bufferMusic);
+  //     //converting buffer to string
+  //     const convertedBufferMusic = await convertBufferRedis(bufferMusic);
 
-      //storing music file track in redis as string
+  //     //storing music file track in redis as string
 
-      await redis.set(`music: emotional`, convertedBufferMusic);
-    }
-  }
-  if (musicValue == 'epic') {
-    const musicExists = await redis.exists(`music:${musicValue}`);
-    if (musicExists == 0) {
-      //converting to buffer
-      const musicFileAbsolutePath = path.resolve(
-        __dirname,
-        '../musicTracks/epic_364885.mp3'
-      );
+  //     await redis.set(`music: emotional`, convertedBufferMusic);
+  //   }
+  // }
+  // if (musicValue == 'epic') {
+  //   const musicExists = await redis.exists(`music:${musicValue}`);
+  //   if (musicExists == 0) {
+  //     //converting to buffer
+  //     const musicFileAbsolutePath = path.resolve(
+  //       __dirname,
+  //       '../musicTracks/epic_364885.mp3'
+  //     );
 
-      //reading content of file to a buffer
-      const bufferMusic = await fs.readFile(musicFileAbsolutePath);
+  //     //reading content of file to a buffer
+  //     const bufferMusic = await fs.readFile(musicFileAbsolutePath);
 
-      //converting buffer to string
-      const convertedBufferMusic = await convertBufferRedis(bufferMusic);
+  //     //converting buffer to string
+  //     const convertedBufferMusic = await convertBufferRedis(bufferMusic);
 
-      //storing music file track in redis as string
+  //     //storing music file track in redis as string
 
-      await redis.set(`music: epic`, convertedBufferMusic);
-    }
-  }
-  if (musicValue == 'uplifting') {
-    const musicExists = await redis.exists(`music:${musicValue}`);
-    if (musicExists == 0) {
-      //converting to buffer
-      const musicFileAbsolutePath = path.resolve(
-        __dirname,
-        '../musicTracks/uplifting_328600.mp3'
-      );
+  //     await redis.set(`music: epic`, convertedBufferMusic);
+  //   }
+  // }
+  // if (musicValue == 'uplifting') {
+  //   const musicExists = await redis.exists(`music:${musicValue}`);
+  //   if (musicExists == 0) {
+  //     //converting to buffer
+  //     const musicFileAbsolutePath = path.resolve(
+  //       __dirname,
+  //       '../musicTracks/uplifting_328600.mp3'
+  //     );
 
-      //reading content of file to a buffer
-      const bufferMusic = await fs.readFile(musicFileAbsolutePath);
+  //     //reading content of file to a buffer
+  //     const bufferMusic = await fs.readFile(musicFileAbsolutePath);
 
-      //converting buffer to string
-      const convertedBufferMusic = await convertBufferRedis(bufferMusic);
+  //     //converting buffer to string
+  //     const convertedBufferMusic = await convertBufferRedis(bufferMusic);
 
-      //storing music file track in redis as string
+  //     //storing music file track in redis as string
 
-      await redis.set(`music: uplifting`, convertedBufferMusic);
-    }
-  }
+  //     await redis.set(`music: uplifting`, convertedBufferMusic);
+  //   }
+  // }
 
   //Get voiceover from script and combine with music
 
