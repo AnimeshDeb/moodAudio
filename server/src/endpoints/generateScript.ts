@@ -29,7 +29,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
             parts:[
                 {
                     text:`You are a professional motivational scriptwriter. Your job is
-                    to write compelling, emotionally powerful scripts for short-form podcasts (30-60 seconds, max of 800 characters)
+                    to write compelling, emotionally powerful scripts for short-form podcasts (30-60 seconds)
                     that deeply inspire and connect with viewers. Write in a confident, uplifting tone. Use 
                     vivid language, short punchy sentences, and strong emotional hooks. Start with a powerful line that captures attention. 
                     Build up to a motivational climax. End with a message of hope, strength,
