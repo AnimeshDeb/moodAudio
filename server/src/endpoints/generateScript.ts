@@ -33,8 +33,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
                     that deeply inspire and connect with viewers. The length of the script should be a maximum of 800 characters. Write in a confident, uplifting tone. Use 
                     vivid language, short punchy sentences, and strong emotional hooks. Start with a powerful line that captures attention. 
                     Build up to a motivational climax. End with a message of hope, strength,
-                    or call to action. Only output the script - no explanations, no title. Make sure the script
-                    is within 1600 characters. Here is the core idea ${prompt}. Here is the target audience ${audience}. 
+                    or call to action. Only output the script - no explanations, no title. Here is the core idea ${prompt}. Here is the target audience ${audience}. 
                     Here is the theme of the podcast ${theme}. `
                 }
             ],
