@@ -28,7 +28,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     audienceValue,
     userEmail,
   } = req.body;
-
+  let reach = 'none';
   const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
   const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
   const redis = new Redis({
@@ -135,20 +135,35 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   //Get voiceover from script and combine with music
 
   //elevenlabs voice
-  const voiceOver = await generateVoiceover(script, voiceValue, userEmail);
-  // await savevoiceoverBuffer(voiceOver, userEmail); // voiceover buffer is stored as string in redis
-  const audioBuffer = await voiceoverAndMusic(userEmail, musicValue); //combined voice and music buffer is stored as string in redis
-  // await getImages(themeValue)
-  // const videoBuffer=await AddVisuals(userEmail, themeValue)
-  // await inspectStream('video_animeshdeb89@gmail.com.mp4')
-  // await inspectStream('combined_output_animeshdeb89@gmail.com.mp3')
+  try {
+    reach = 'first';
+    const voiceOver = await generateVoiceover(script, voiceValue, userEmail);
+    reach = 'second';
+    // await savevoiceoverBuffer(voiceOver, userEmail); // voiceover buffer is stored as string in redis
+    const audioBuffer = await voiceoverAndMusic(userEmail, musicValue); //combined voice and music buffer is stored as string in redis
+    reach = 'third';
+    // await getImages(themeValue)
+    // const videoBuffer=await AddVisuals(userEmail, themeValue)
+    // await inspectStream('video_animeshdeb89@gmail.com.mp4')
+    // await inspectStream('combined_output_animeshdeb89@gmail.com.mp3')
 
-  //sending mp3 and mp4 data as buffers to frontend, converting them to base64 string so frontend can process them
+    //sending mp3 and mp4 data as buffers to frontend, converting them to base64 string so frontend can process them
 
-  res.setHeader('Content-Type', 'audio/mpeg');
-  res.setHeader('Content-Disposition', 'inline; filename="output.mp3"'); // optional, helps with downloading
-  res.send(audioBuffer);
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.setHeader('Content-Disposition', 'inline; filename="output.mp3"'); // optional, helps with downloading
+    res.send(audioBuffer);
+  } catch (error: unknown) {
+    let errorMessage = 'Unknown error';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
 
+    // send JSON with reach and error
+    res.status(500).json({
+      error: errorMessage,
+      reach,
+    });
+  }
   // if (musicValue == 'AI_music') {
   //   //If 'AI_music' is chosen, based on the detected mood, we get the appropriate music background track.
   //   //Otherwise the background music will be one of the selected ones.
