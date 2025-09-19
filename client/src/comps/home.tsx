@@ -127,7 +127,7 @@ export default function Home() {
       .max(550, { message: 'Prompt must be a max of 550 characaters.' }),
     script: z
       .string()
-      .max(1600, { message: 'Script must be of max 1600 char ' }),
+      .max(800, { message: 'Script must be of max 800 char ' }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({

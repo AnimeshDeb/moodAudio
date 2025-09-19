@@ -135,8 +135,8 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   //Get voiceover from script and combine with music
 
   //elevenlabs voice
-  const voiceOver = await generateVoiceover(script, voiceValue);
-  await savevoiceoverBuffer(voiceOver, userEmail); // voiceover buffer is stored as string in redis
+  const voiceOver = await generateVoiceover(script, voiceValue, userEmail);
+  // await savevoiceoverBuffer(voiceOver, userEmail); // voiceover buffer is stored as string in redis
   const audioBuffer = await voiceoverAndMusic(userEmail, musicValue); //combined voice and music buffer is stored as string in redis
   // await getImages(themeValue)
   // const videoBuffer=await AddVisuals(userEmail, themeValue)

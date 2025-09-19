@@ -34,8 +34,8 @@ export default function ScriptDisplay({
   const [error, setError] = useState('');
 
   const formSchema = z.object({
-    writtenScript: z.string().max(1600, {
-      message: 'Script must be of max 1600 characters.',
+    writtenScript: z.string().max(800, {
+      message: 'Script must be of 800 characters.',
     }),
   });
 
