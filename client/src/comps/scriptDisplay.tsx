@@ -79,14 +79,14 @@ export default function ScriptDisplay({
 
             if (!response.ok) {
               // Try reading server JSON with reach info
-              let errData;
-              try {
-                errData = await response.json();
+              const contentType = response.headers.get('content-type');
+              if (contentType?.includes('application/json')) {
+                const errData = await response.json();
                 console.error('Server reach:', errData.reach);
                 throw new Error(
                   `Failed to generate audio: ${errData.error} (reach: ${errData.reach})`
                 );
-              } catch {
+              } else {
                 throw new Error(
                   'Failed to generate audio (unknown server error)'
                 );
@@ -96,6 +96,7 @@ export default function ScriptDisplay({
             // If ok, read audio
             const arrayBuffer = await response.arrayBuffer();
             const audioBlob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+
             const oldAudioUrl = audioUrl;
             const newAudioUrl = URL.createObjectURL(audioBlob);
             setAudioUrl(newAudioUrl);
