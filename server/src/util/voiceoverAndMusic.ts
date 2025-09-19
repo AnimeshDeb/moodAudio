@@ -16,10 +16,10 @@ export async function voiceoverAndMusic(
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
-  const musicFileAbsolutePath = path.resolve(
-    __dirname,
-    '../musicTracks/ambient_345093.mp3'
-  );
+  // const musicFileAbsolutePath = path.resolve(
+  //   __dirname,
+  //   '../musicTracks/ambient_345093.mp3'
+  // );
 
   const ffmpegPath = ffmpeg as unknown as string;
   const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
